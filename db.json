@@ -1,0 +1,22 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "El Quijote",
+      "author": "Miguel de Cervantes",
+      "genre": "Clásico",
+      "price": 25,
+      "quantity": 10,
+      "description": "Una obra literaria clásica que narra las aventuras de Don Quijote y Sancho Panza."
+    },
+    {
+      "id": 2,
+      "title": "Cien Años de Soledad",
+      "author": "Gabriel García Márquez",
+      "genre": "Realismo mágico",
+      "price": 30,
+      "quantity": 15,
+      "description": "Una novela icónica de Gabriel García Márquez que explora la historia de la familia Buendía en el pueblo ficticio de Macondo."
+    }
+  ]
+}
