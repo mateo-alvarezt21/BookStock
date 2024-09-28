@@ -1,18 +1,15 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword, User } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";  // Importar signOut
 import { auth } from "../Firebase/firebase-config";
 
-// Define el tipo para el contexto de autenticación
 interface AuthContextType {
   currentUser: User | null;
   login: (email: string, password: string) => Promise<any>;
+  logout: () => Promise<void>;  // Añadir logout a la interfaz
 }
 
-// Crear el contexto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Hook para consumir el contexto
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
@@ -21,7 +18,6 @@ export function useAuth() {
   return context;
 }
 
-// Componente proveedor
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,9 +35,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // Función de logout utilizando Firebase signOut
+  const logout = () => {
+    return signOut(auth);
+  };
+
   const value = {
     currentUser,
     login,
+    logout, 
   };
 
   return (

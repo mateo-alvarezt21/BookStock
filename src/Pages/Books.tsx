@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Books: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState('list');  // Estado para alternar entre lista y cuadrícula
+  const [viewMode, setViewMode] = useState('list');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,23 +36,64 @@ const Books: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Lista de Libros</h1>
-      <button onClick={() => navigate('/add-book')}>Agregar Libro</button>
-      <button onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}>
-        Cambiar a {viewMode === 'list' ? 'Cuadrícula' : 'Lista'}
-      </button>
-      <div className={viewMode === 'list' ? 'list-view' : 'grid-view'}>
+    <div className="max-w-4xl mx-auto mt-10">
+      <h1 className="text-3xl font-bold mb-6">Lista de Libros</h1>
+      <div className="flex justify-between mb-4">
+        <button
+          onClick={() => navigate('/add-book')}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Agregar Libro
+        </button>
+        <button
+          onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Cambiar a {viewMode === 'list' ? 'Cuadrícula' : 'Lista'}
+        </button>
+      </div>
+
+      {/* Botón para ir al Home */}
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={() => navigate('/')}
+          className="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300"
+        >
+          Volver al Home
+        </button>
+      </div>
+
+      <div className={viewMode === 'list' ? 'space-y-4' : 'grid grid-cols-2 gap-6'}>
         {books.map((book) => (
-          <div key={book.id} className="book-item">
-            <h2>{book.title}</h2>
-            <p>Autor: {book.author}</p>
-            <p>Género: {book.genre}</p>
-            <p>Precio: ${book.price}</p>
-            <p>Cantidad disponible: {book.quantity}</p>
-            <p>Descripción: {book.description}</p>  {/* Aquí se muestra la descripción */}
-            <button onClick={() => navigate(`/edit-book/${book.id}`)}>Editar</button>
-            <button onClick={() => handleDelete(book.id)}>Eliminar</button>
+          <div
+            key={book.id}
+            className={`p-4 bg-white rounded-lg shadow-md flex flex-col justify-between ${
+              viewMode === 'grid' ? 'h-72' : 'h-auto'
+            }`}
+          >
+            <div className="flex-grow">
+              <h2 className="text-xl font-bold mb-2 truncate">{book.title}</h2>
+              <p className="text-gray-700 truncate">Autor: {book.author}</p>
+              <p className="text-gray-700 truncate">Género: {book.genre}</p>
+              <p className="text-gray-700">Precio: ${book.price}</p>
+              <p className="text-gray-700">Cantidad disponible: {book.quantity}</p>
+              <p className="text-gray-700 truncate">Descripción: {book.description}</p>  
+            </div>
+
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => navigate(`/edit-book/${book.id}`)}
+                className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => handleDelete(book.id)}
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
         ))}
       </div>
